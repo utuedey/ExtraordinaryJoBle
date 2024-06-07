@@ -81,3 +81,79 @@ Make sure you have the following installed on your machine:
 
     The frontend server will start on `http://localhost:3000`.
 
+## Project Structure
+
+```plaintext
+ExtraordinaryJoBle/
+│
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── App.js
+│   │   ├── index.js
+│   ├── package.json
+│   ├── ...
+│
+├── backend/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── app.js
+│   ├── package.json
+│   ├── ...
+│
+└── README.md
+```
+
+## Usage
+
+1. Register a new account or log in with existing credentials.
+2. Navigate to the Dashboard to view and share daily schedules.
+3. Set reminders for important tasks.
+4. Send encouragement messages to each other.
+5. Receive notifications for updates and reminders.
+
+## API Endpoints
+
+### Auth
+
+- `POST /api/auth/signup`: Register a new user
+- `POST /api/auth/login`: Login a user
+
+### Schedules
+
+- `GET /api/schedules`: Get all schedules
+- `POST /api/schedules`: Create a new schedule
+- `PUT /api/schedules/:id`: Update a schedule
+- `DELETE /api/schedules/:id`: Delete a schedule
+
+### Reminders
+
+- `GET /api/reminders`: Get all reminders
+- `POST /api/reminders`: Create a new reminder
+- `PUT /api/reminders/:id`: Update a reminder
+- `DELETE /api/reminders/:id`: Delete a reminder
+
+### Encouragements
+
+- `GET /api/encouragements`: Get all encouragement messages
+- `POST /api/encouragements`: Send a new encouragement message
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and create a pull request with your changes.
+
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature-branch`)
+3. Make your changes
+4. Commit your changes (`git commit -am 'Add new feature'`)
+5. Push to the branch (`git push origin feature-branch`)
+6. Create a new Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+```
+
