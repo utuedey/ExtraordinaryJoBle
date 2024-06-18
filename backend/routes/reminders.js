@@ -1,6 +1,6 @@
 // backend/routes/reminders.js
 const express = require('express');
-const router = express.Router;
+const router = express.Router();
 const Reminder = require('../models/Reminder')
 
 
@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
 });
 
 // Get a specific reminder
-router.post('/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const reminder = await Reminder.findById(req.params.id);
         
