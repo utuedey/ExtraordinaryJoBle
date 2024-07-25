@@ -16,10 +16,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/schedules', scheduleRoutes);
-app.use('/api/reminders', reminderRoutes);
-app.use('/api/encouragements', encouragementRoutes);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/schedules', scheduleRoutes);
+app.use('/api/v1/reminders', reminderRoutes);
+app.use('/api/v1/encouragements', encouragementRoutes);
 
 app.get('/', (req, res) => {
     res.send('Welcome to Extraordinary JoBle API');
