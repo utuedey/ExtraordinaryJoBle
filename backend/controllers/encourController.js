@@ -3,7 +3,7 @@ const Encouragement = require('../models/Encouragement');
 
 // Create a new encouragement message
 exports.createEncouragement = async (req, res) => {
-    const { senderId, recieverId, message } = req.body;
+    const { senderId, receiverId, message } = req.body;
 
     try {
         const newEncouragement = new Encouragement({
@@ -30,7 +30,7 @@ exports.getAllEncouragement = async (req, res) => {
 
 // Get a specific encouragement message
 exports.getEncouragementById = async (req, res) => {
-    const encourId = req.params._id;
+    const encourId = req.params.id;
     try {
         const encouragement = await Encouragement.findById(encourId);
 
