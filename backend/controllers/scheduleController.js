@@ -2,12 +2,17 @@ const Schedule = require('../models/Schedule');
 
 // Create a schedule
 exports.createSchedule = async (req, res) => {
-    const { userId, date, tasks } = req.body;
+    const { userId, title, 
+            description, startTime,
+            endTime, allDay,
+            recurring, recurrencPattern } = req.body;
 
     try {
-
         const newSchedule = new Schedule({
-            userId, date: new Date(), tasks
+            userId, title, 
+            description, startTime: new Date(),
+            endTime: new Date(), allDay,
+            recurring, recurrencPattern
         });
         await newSchedule.save();
         res.status(201).json(newSchedule);
@@ -36,11 +41,15 @@ exports.getScheduleById = async (req, res) => {
 
 // Update a specific schedule
 exports.UpdateScheduleById = async (req, res) => {
-    const { userId, date, tasks } = req.body;
+    const { userId, title, 
+            description, startTime,
+            endTime, allDay,
+            recurring, recurrencPattern} = req.body;
     try {
         const updatedSchedule = await Schedule.findByIdAndUpdate(
             req.params.id,
-            { userId, date: new Date(), tasks },
+            { userId, title, description, startTime: new Date(),
+              endTime: new Date(), allDay,recurring, recurrencPattern},
             { new: true }
         );
         if (!updatedSchedule) {
