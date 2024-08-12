@@ -119,27 +119,27 @@ ExtraordinaryJoBle/
 
 ### Auth
 
-- `POST /api/auth/signup`: Register a new user
-- `POST /api/auth/login`: Login a user
+- `POST /api/v1/auth/signup`: Register a new user
+- `POST /api/v1/auth/login`: Login a user
 
 ### Schedules
 
-- `GET /api/schedules`: Get all schedules
-- `POST /api/schedules`: Create a new schedule
-- `PUT /api/schedules/:id`: Update a schedule
-- `DELETE /api/schedules/:id`: Delete a schedule
+- `GET /api/v1/schedules`: Get all schedules
+- `POST /api/v1/schedules`: Create a new schedule
+- `PUT /api/v1/schedules/:id`: Update a schedule
+- `DELETE /api/v1/schedules/:id`: Delete a schedule
 
 ### Reminders
 
-- `GET /api/reminders`: Get all reminders
-- `POST /api/reminders`: Create a new reminder
-- `PUT /api/reminders/:id`: Update a reminder
-- `DELETE /api/reminders/:id`: Delete a reminder
+- `GET /api/v1/reminders`: Get all reminders
+- `POST /api/v1/reminders`: Create a new reminder
+- `PUT /api/v1/reminders/:id`: Update a reminder
+- `DELETE /api/v1/reminders/:id`: Delete a reminder
 
 ### Encouragements
 
-- `GET /api/encouragements`: Get all encouragement messages
-- `POST /api/encouragements`: Send a new encouragement message
+- `GET /api/v1/encouragements`: Get all encouragement messages
+- `POST /api/v1/encouragements`: Send a new encouragement message
 
 ## Contributing
 
@@ -155,5 +155,5 @@ Contributions are welcome! Please fork the repository and create a pull request 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```
+
 
