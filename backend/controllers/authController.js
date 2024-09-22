@@ -2,11 +2,17 @@ require('dotenv').config();
 
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const logger = require('../logger')
 
 const { generateVerficationToken } = require('../utils/generateVerificationCode');
 const { generateTokenAndSetCookie } = require('../utils/generateTokenAndSetCookie');
+const {
+    sendVerificationEmail,
+    sendPasswordResetEmail,
+    sendResetSuccessEmail,
+
+} = require('../mailtrap/emails');
 
 
 // Endpoint for user registragion
@@ -65,6 +71,7 @@ exports.register = async (req, res) => {
     }
 };
 
+//Login Endpoint
 exports.login = async (req, res) => {
     const { email, password } = req.body;
 
@@ -81,7 +88,10 @@ exports.login = async (req, res) => {
             return res.status(404).json({ message: "Wrong password"});
         }
 
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {expiresIn: "1h"});
+        generateTokenAndSetCookie(res, user._id)
+
+        user.lastlogin = new Date();
+        await user.save();
 
         logger.info('User logged in succesfully')
 
@@ -89,9 +99,8 @@ exports.login = async (req, res) => {
                 status: "success",
                 message: "user login successfully",
                 user: {
-                    "access_token": token,
-                    "username": user.username,
-                    "userId": user._id
+                    ...user._doc,
+                    password: undefined
                 }
             });
     } catch (e) {
@@ -102,26 +111,128 @@ exports.login = async (req, res) => {
     }
 };
 
+// Logout Endpoint
 exports.logout = async (req, res) => {
+    res.clearCookie('token');
+
+    logger.info('User logged out succesfully')
+
+    res.status(200).json({
+        success: true,
+        message: "Logged out successfully"
+    })
+}
+
+// Forgot Password Endpoint
+exports.ForgotPassword = async (req, res) => {
+    const { email } = req.body;
+
     try {
-        const token = req.header('Authorization').replace('Bearer ', '');
+        const user = await User.findOne({ email })
 
-        // Invalidate the token by adding it to the blacklist
-        invalidateToken(token);
-
-        // Destroy session if used
-        if (req.session) {
-            req.session.destroy((error) => {
-                if (err) {
-                    return res.status(500).send({ messsage: 'Logout failed'});
-                }
-                res.clearCookie('connect.sid'); // Adjust this according to your cookie name
-                return res.send({ message: 'Logoit successful'});
-            });
-        } else {
-            res.send({ message: 'Logout successful'});
+        if (!user) {
+            res.status(404).json({
+                success: false,
+                message: "User not found"
+            })
         }
-    } catch ( error ){
-        res.status(500).send({ message: "Logout failed"})
+
+        // Generate Reset Token
+        const resetToken = crypto.randomBytes(20).toString("hex");
+        const resetTokenExpiresAt = Date.now() + 1 * 60 * 60 * 1000; // 1hr
+
+        user.resetPasswordToken = resetToken;
+        user.resetPasswordTokenExpiresAt = resetTokenExpiresAt;
+
+        await user.save();
+
+        // send email with reset Token
+
+        await sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL}/reset-password/${resetToken}`)
+
+        logger.info('User Forgot Password mail sent successfully')
+
+        res.status(200).json(
+            {
+                success: true,
+                message: "Password reset link sent to your email",
+            }
+        )
+    } catch (error) {
+        logger.error(error)
+        res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+    }
+}
+
+// Reset Password Endpoint
+exports.ResetPassword = async (req, res) => {
+    try {
+        const {token} = req.params;
+        const {password} = req.body;
+
+        const user = await User.findOne({
+            resetPasswordToken: token,
+            resetPasswordTokenExpiresAt: { $gt: Date.now()}
+        })
+
+        if (!user) {
+            res.status(400).json({
+                success: false,
+                message: "Invalid or expired reset token"
+            });
+        }
+        // update password
+        const hashedPassword = await bcrypt.hash(password, 10)
+
+        user.password = hashedPassword;
+        user.resetPasswordToken = undefined;
+        user.resetPasswordTokenExpiresAt = undefined;
+        await user.save()
+
+        await sendResetSuccessEmail(user.email);
+
+        logger.info('User Password Reset successful')
+
+        res.status(200).json({
+            success: true,
+            message: "Password Reset successful"
+        })
+    } catch (error) {
+        logger.error(error)
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
+}
+
+// Authentication check Endpoint
+exports.checkAuth = async (req, res) => {
+    try {
+        const user = await User.findById(req.userId).select('-password');
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        logger.info('User Authentication successful');
+
+        res.status(200).json({
+            success: true,
+            user
+        })
+
+    } catch (error) {
+        logger.error(error)
+        res.status(400).json({
+            success: false,
+            message: error.message
+        });
+
     }
 }
