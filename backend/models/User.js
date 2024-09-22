@@ -17,10 +17,19 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
-    updatedAt: {
+    lastlogin: {
         type: Date,
         default: Date.now
-    }
-});
+    },
+    isVerified: {
+        type: Boolean,
+        default: false,
+    },
+    resetPasswordToken: String,
+    resetPasswordTokenExpiresAt: Date,
+    verificationToken: String,
+    verificationTokenExpiresAt: Date,
+
+}, {timestamps: true});
 
 module.exports = mongoose.model('User', UserSchema);
