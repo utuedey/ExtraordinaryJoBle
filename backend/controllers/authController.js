@@ -11,6 +11,7 @@ const {
     sendVerificationEmail,
     sendPasswordResetEmail,
     sendResetSuccessEmail,
+    sendWelcomeEmail,
 
 } = require('../mailtrap/emails');
 
@@ -70,6 +71,52 @@ exports.register = async (req, res) => {
         res.status(500).json({ message: 'Internal server error'});
     }
 };
+
+//verify email Endpoint
+exports.VerifyEmail = async (req, res) => {
+    const { code } = req.body;
+
+    try {
+
+        const user = await User.findOne({
+            verificationToken: code,
+            verificationTokenExpiresAt: { $gt: Date.now() }
+        })
+
+        if (!user) {
+            res.status(400).json({
+                success: false,
+                message: "Invalid or expired token"
+            })
+        }
+
+        user.isVerified = true,
+        user.verificationToken = undefined,
+        user.verificationTokenExpiresAt = undefined
+        await user.save();
+
+        await sendWelcomeEmail(user.email, user.username)
+
+        logger.info("Email verified successfully")
+
+        res.status(200).json({
+            success: true,
+            message: "Email verified successfully",
+            user: {
+                ...user._doc,
+                password: undefined
+            }
+        });
+
+    } catch (error) {
+        logger.error(error)
+        res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        })
+
+    }
+}
 
 //Login Endpoint
 exports.login = async (req, res) => {
