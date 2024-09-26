@@ -17,7 +17,7 @@ const {
 
 
 // Endpoint for user registragion
-exports.register = async (req, res) => {
+exports.signup = async (req, res) => {
 
     const { email, username, password } = req.body;
 
