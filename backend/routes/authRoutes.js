@@ -28,7 +28,7 @@ router.post('/login', login)
 router.post('/logout', logout);
 
 // Email verification link
-router.post('verify-email', VerifyEmail);
+router.post('/verify-email', VerifyEmail);
 
 // Forget Password route
 router.post('/forgot-password/:token', ForgotPassword);
