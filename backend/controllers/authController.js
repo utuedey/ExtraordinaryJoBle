@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const logger = require('../logger')
 
-const { generateVerficationToken } = require('../utils/generateVerificationCode');
+const { generateVerificationToken } = require('../utils/generateVerificationCode');
 const { generateTokenAndSetCookie } = require('../utils/generateTokenAndSetCookie');
 const {
     sendVerificationEmail,
@@ -38,7 +38,7 @@ exports.signup = async (req, res) => {
 
        const hashedPassword = await bcrypt.hash(password, 10);
 
-       const verificationToken = generateVerficationToken();
+       const verificationToken = generateVerificationToken();
 
         const newUser = new User({
             email,
