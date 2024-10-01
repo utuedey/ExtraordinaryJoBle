@@ -14,6 +14,7 @@ const scheduleRoutes = require('./routes/schedules');
 const encouragementRoutes = require('./routes/encouragements');
 const logger = require('./logger')
 
+const cookieParser = require('cookie-parser');
 const app = express();
 
 // Middlewares
@@ -21,6 +22,7 @@ app.use(bodyParser.json());
 app.use('*', cors());
 app.use(pinoHttp({ logger }))
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser());
 
 // Routes
 app.use('/api/v1/auth', authRoutes);
