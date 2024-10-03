@@ -1,7 +1,7 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
-const secret_key = process.env.JWT_SECRET;
+const secret_key = process.env.JWT_SECRECT;
 const node_env = process.env.NODE_ENV;
 
 exports.generateTokenAndSetCookie = (res, userId) => {
