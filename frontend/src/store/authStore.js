@@ -1,7 +1,7 @@
 import {create} from "zustand";
 import axios from 'axios';
 
-const API_URL = "http://localhost:5555/api/auth";
+const API_URL = "http://localhost:3060/api/v1/auth";
 axios.defaults.withCredentials = true;
 
 export const useAuthStore = create((set) => ({
@@ -42,7 +42,7 @@ export const useAuthStore = create((set) => ({
             set({ user: response.data.user, isCheckingAuth: false, isAuthenticated: false});
 
         } catch (error) {
-            set({ error: error.response.data.message || null, isCheckingAuth: false, isAuthenticated: false});
+            set({ error: error.response?.data?.message, isCheckingAuth: false, isAuthenticated: false});
 
         }
     },
