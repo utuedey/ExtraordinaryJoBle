@@ -19,7 +19,7 @@ const app = express();
 
 // Middlewares
 app.use(bodyParser.json());
-app.use('*', cors());
+app.use(cors({ origin: "http://localhost:5173", credentials: true}));
 app.use(pinoHttp({ logger }))
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
