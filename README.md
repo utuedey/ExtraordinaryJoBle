@@ -21,6 +21,8 @@ Extraordinary JoBle is a web application designed for couples to share their dai
 
 - User Authentication (Signup, Login)
 - Dashboard
+- Chat
+- collaborative planning
 - Daily Schedule Sharing
 - Reminders
 - Encouragement Messages
