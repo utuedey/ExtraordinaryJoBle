@@ -30,10 +30,10 @@ Extraordinary JoBle is a web application designed for couples to share their dai
 
 ## Tech Stack
 
-- **Frontend**: React.js, CSS, Axios, React Router
+- **Frontend**: React.js, TailwindCSS, Axios, React Router
 - **Backend**: Node.js, Express.js, MongoDB
-- **Authentication**: Firebase Authentication
-- **Hosting**: Vercel (Frontend), Heroku (Backend), MongoDB Atlas (Database)
+- **Authentication**: Session based Authentication
+- **Hosting**: Vercel (Frontend), Render (Backend), MongoDB Atlas (Database)
 
 ## Getting Started
 
@@ -50,7 +50,7 @@ Make sure you have the following installed on your machine:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/extraordinary-joble.git
+    git clone https://github.com/utuedey/extraordinary-joble.git
     cd extraordinary-joble
     ```
 
