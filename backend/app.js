@@ -9,9 +9,12 @@ const path = require('path')
 const connectToDatabase = require('./models/db');
 
 const authRoutes = require('./routes/authRoutes');
+const eventRoutes = require('./routes/eventRoutes');
+const taskRoutes = require('./routes/taskRoutes');
 const reminderRoutes = require('./routes/reminders');
 const scheduleRoutes = require('./routes/schedules');
 const encouragementRoutes = require('./routes/encouragements');
+
 const logger = require('./logger')
 
 const cookieParser = require('cookie-parser');
@@ -29,6 +32,8 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/schedules', scheduleRoutes);
 app.use('/api/v1/reminders', reminderRoutes);
 app.use('/api/v1/encouragements', encouragementRoutes);
+app.use('/api/v1/events', eventRoutes);
+app.use('/api/v1/tasks', taskRoutes);
 
 app.get('/', (req, res) => {
     res.send('Welcome to Extraordinary JoBle API');
