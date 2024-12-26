@@ -276,7 +276,7 @@ exports.checkAuth = async (req, res) => {
 
     } catch (error) {
         logger.error(error)
-        res.status(400).json({
+        res.status(500).json({
             success: false,
             message: error.message
         });
